@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>父组件向子组件传递值实现累加</title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<child :msg="msg"></child>
+			<child :msg="msg"></child>
+			<child :msg="msg"></child>
+		</div>
+		<script>
+
+			Vue.component("child",{
+				props:["msg"],
+				data(){
+					return {
+						num:this.msg
+					}
+				},
+				template:"<div class='wrap' @click='add'>{{num}}</div>",
+				methods:{
+					add:function(){
+//						this.num++
+						this.num = "aaaa"
+					}
+				}
+				
+			})
+		
+			new Vue({
+				el:"#app",
+				data:{
+					msg:"hello parent"
+				}
+			})
+		</script>
+	</body>
+</html>

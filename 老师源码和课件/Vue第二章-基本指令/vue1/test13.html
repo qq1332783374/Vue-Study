@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>图片轮播</title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<style>
+			*{
+				margin: 0;
+			}
+			.imgs{
+				width: 500px;
+				height: 400px;
+				margin: 0 auto;
+			}
+			.imgs img{
+				width: 500px;
+				height: 400px;
+			}
+			.btns{
+				width: 500px;
+				margin: 20px auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="imgs" v-for="(item,index) in imgList" v-if="index==num">
+				<img :src="item.imgUrl" />
+			</div>
+			<div class="btns">
+				<button @click="prev">上一张</button>
+				<button @click="next">下一张</button>
+			</div>
+			
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					imgList:[
+						{imgUrl:"img/1.jpg"},
+						{imgUrl:"img/2.jpg"},
+						{imgUrl:"img/3.jpg"},
+						{imgUrl:"img/4.jpg"}
+					],
+					num:0
+				},
+				methods:{
+					next:function(){
+						this.num++
+						if(this.num>this.imgList.length-1){
+							this.num = 0
+						}
+					},
+					prev:function(){
+						this.num--
+						if(this.num<0){
+							this.num = this.imgList.length-1
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

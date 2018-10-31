@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>v-model</title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="msg"/>
+			<!--<p>{{msg}}</p>-->
+			<button @click="show">按钮</button>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					msg:""
+				},
+				methods:{
+					show:function(){
+						alert(this.msg)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

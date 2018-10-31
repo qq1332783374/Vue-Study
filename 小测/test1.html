@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>收货地址</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="http://www.tanshangbiao.cn/pack/bootstrap/css/bootstrap.css"/>
+	</head>
+
+	<body>
+		<div id="app">
+			<div class="container">
+				<table class="table table-bordered table-hover text-center">
+					<thead>
+						<tr>
+							<td>商品名称</td>
+							<td>商品价格</td>
+							<td>商品数量</td>
+							<td>操作</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr 
+							v-for="(item,index) in goods"
+							:key="index"
+							
+						>
+							<td>{{item.shopName}}</td>
+							<td>{{item.shopPrice}}</td>
+							<td>{{item.shopNum}}</td>
+							<td>
+								<button class="btn btn-danger" type="button" @click="sub(index)">-</button>
+								<button class="btn btn-info" type="button" @click="add(index)">+</button>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="4">
+								<button class="btn btn-primary" type="button" @click="editor">编辑收货地址</button>
+							</td>
+						</tr>
+						<tr class="text-right">
+							<td colspan="4">
+								<p>总价格：{{allPrice}}￥</p>
+								<p>总数量：{{allNum}}</p>
+								<p>收货地址:{{address}}</p>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				<div class="address" v-if="isShow">
+					<hr>
+					<form  class="form-horizontal">
+						<div class="form-group">
+							<input type="text" name="address" placeholder="请输入收货地址" class="form-control" v-model="address"/>
+							<button type="button" class="btn btn-warning" @click="ok">确定</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script>
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					isShow:false,
+					goods:[
+						{id:1,shopName:"商品1",shopPrice:999,shopNum:10},
+						{id:2,shopName:"商品2",shopPrice:888,shopNum:9},
+						{id:3,shopName:"商品3",shopPrice:777,shopNum:8},
+						{id:4,shopName:"商品4",shopPrice:666,shopNum:7},
+						{id:5,shopName:"商品5",shopPrice:555,shopNum:6}
+					],
+					address:"广州天河"
+				},
+				methods:{
+					sub(index){
+						if(this.goods[index].shopNum<=0){
+							if(confirm("确定删除吗？")){
+								this.goods.splice(index,1)
+							}
+						}else{
+							this.goods[index].shopNum--
+						}
+					},
+					add(index){
+						this.goods[index].shopNum++
+					},
+					editor(){
+						this.isShow = true
+					},
+					ok(){
+						this.isShow = false
+					}
+				},
+				computed:{
+					allPrice(){  //计算总价
+						var all = 0 
+						for(var i=0;i<this.goods.length;i++){
+							all+= this.goods[i].shopPrice * this.goods[i].shopNum
+						}
+						return all
+					},
+					allNum(){  //计算总量
+						var all = 0 
+						for(var i=0;i<this.goods.length;i++){
+							all+= this.goods[i].shopNum
+						}
+						return all
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

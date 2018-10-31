@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>通过 Prop 向子组件传递数据</title>
+	</head>
+	<body>
+		<div id="app">
+			<blog-post
+				v-for="post in posts"
+				:key="post.id"
+				:post="post"
+			></blog-post>
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script>
+			//注册组件
+			Vue.component('blog-post',{
+				props:['post'],    //使用 v-bind 来动态传递 prop
+				template:'<h3>{{post.title}}</h3>'
+			})
+			//实例化对象
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					posts:[]
+				},
+				created(){  //创建好
+					var _this = this
+					
+					axios.get("data/info.json")
+					.then(function(res){
+						_this.posts=res.data
+						console.log(res)
+					})
+					.catch(function(error){
+						console.log(error)
+					})
+					
+					console.log("创建好")
+				},
+				mounted(){ //创建完成
+					console.log("创建完成")
+				}
+			})
+		</script>
+	</body>
+
+</html>

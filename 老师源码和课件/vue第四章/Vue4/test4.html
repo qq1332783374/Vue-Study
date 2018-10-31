@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<style>
+			.red{
+				background: red;
+			}
+			.blue{
+				background: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="(item,index) in list" :class="[{red:index%2==0},{blue:index%2!=0}]">
+					{{item.title}}
+				</li>
+			</ul>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					list:[
+						{title:"1"},
+						{title:"2"},
+						{title:"3"},
+						{title:"4"}
+					]
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>父组件向子组件传递值实现累加</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	</head>
+	<body>
+		<div id="app">
+			<count :num="3" @addincre="handClick"></count>
+			<count :num="2" @addincre="handClick"></count>
+			{{total}}
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script>
+			Vue.component('count',{
+				props:["num"],
+				data(){
+					return {
+						numcount:this.num
+					}
+				},
+				template:'<div @click="add">{{numcount}}</div>',
+				methods:{
+					add(){
+						this.numcount++
+						this.$emit('addincre')
+					}
+				}
+			})
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					total:5
+				},
+				methods:{
+					handClick(){
+						this.total++
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

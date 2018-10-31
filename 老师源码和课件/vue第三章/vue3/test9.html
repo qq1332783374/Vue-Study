@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<link rel="stylesheet" href="css/bootstrap.css" />
+		<style>
+			#textarea{
+				resize:none;
+				height:200px;	
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			
+			<div class="container">
+				<!--<div class="alert alert-success" role="alert">
+					删除成功
+				</div>-->
+				<form>
+					<div class="form-group">
+						<textarea class="form-control" id="textarea" v-model="sendTxt"></textarea>
+					
+					</div>
+					<div class="form-group">
+						<button class="btn btn-danger" type="button"
+							@click="addInfo"
+							>发送</button>
+						<button class="btn btn-success" type="button" @click="del">删除</button>
+					</div>
+				</form>
+				<hr />
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span>待完成:{{noDoneNum}}</span>
+						<span>已完成:{{doneNum}}</span>
+					</div>
+					<div class="panel-body">
+						<ul class="list-group">
+							<li class="list-group-item" v-for="(item,index) in nodoneList">
+								{{item.content}}
+								<span class="badge">
+									<input type="checkbox" v-model="checkItem" :value="index" />
+								</span>
+							</li>
+						</ul>
+						<hr />
+						<h4>历史记录</h4>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					nodoneList:[
+						{id:1,content:"这是内容1"},
+						{id:2,content:"这是内容2"},
+						{id:3,content:"这是内容3"},
+						{id:4,content:"这是内容4"},
+						{id:5,content:"这是内容5"}
+					],
+					nodeList:[],
+					sendTxt:"",
+					checkItem:[]
+				},
+				computed:{
+					noDoneNum:function(){
+						return this.nodoneList.length
+					},
+					doneNum:function(){
+						return this.nodeList.length
+					}
+				},
+				methods:{
+					addInfo(){
+						var newObj = {
+							id:this.nodoneList.length+1,
+							content:this.sendTxt
+						}
+						this.nodoneList.push(newObj)
+					},
+					del(){
+						if(this.checkItem.length==0){
+							alert("请勾选")
+						}else {
+							var arr = []
+							var len = this.nodoneList.length
+							for (var i=0;i<len;i++) {
+								if(this.checkItem.indexOf(i)>=0){
+									this.nodeList.push(this.nodoneList[i])
+								}else{
+									arr.push(this.nodoneList[i])
+								}
+							}
+							this.nodoneList = arr
+							this.checkItem = []
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>父组件向子组件传递对象实现新闻列表</title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<child v-for="(item,index) in list" :key="index" :item="item"></child>
+		</div>
+		<script>
+
+			Vue.component("child",{
+				props:["item"],
+				template:"<div>{{item.title}}</div>"
+				
+			})
+		
+			new Vue({
+				el:"#app",
+				data:{
+					list:[
+						{id:1,title:"这是标题1"},
+						{id:2,title:"这是标题2"},
+						{id:3,title:"这是标题3"},
+						{id:4,title:"这是标题4"}
+					]
+				}
+			})
+		</script>
+	</body>
+</html>

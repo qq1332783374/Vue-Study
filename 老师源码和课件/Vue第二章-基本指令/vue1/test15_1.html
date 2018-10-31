@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>学生信息登记</title>
+		<link rel="stylesheet" href="css/bootstrap.css" />
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="container">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<td>
+							学号
+						</td>
+						<td>
+							姓名
+						</td>
+						<td>
+							性别
+						</td>
+						<td>
+							操作
+						</td>
+					</tr>
+					<tr v-for="(item,index) in infoList">
+						<td>
+							{{item.id}}
+						</td>
+						<td>
+							{{item.username}}
+						</td>
+						<td>
+							{{item.sex}}
+						</td>
+						<td>
+							<button class="btn btn-danger" @click="del(index)">删除</button>
+							<button class="btn btn-info" @click="update(index)">修改</button>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" class="text-center">
+							<button class="btn btn-success" @click="add">增加</button>
+						</td>
+					</tr>
+					<tr v-if="infoList.length==0">
+						<td colspan="4" class="text-center">
+							没有数据
+						</td>
+					</tr>
+				</table>
+				<hr />
+				<form v-if="isShow">
+					<h4>增加信息</h4>
+					<div class="form-group">
+						<input type="text" placeholder="请输入id" class="form-control" v-model="id" />
+					</div>
+					<div class="form-group">
+						<input type="text" placeholder="请输入姓名" class="form-control" v-model="username"/>
+					</div>
+					<div class="form-group">
+						<input type="text" placeholder="请输入性别" class="form-control" v-model="sex" />
+					</div>
+					<div class="form-group">
+						<button class="btn btn-warning" type="button" @click="addInfo">增加</button>
+					</div>
+				</form>
+				
+				<form v-else>
+					<h4>修改信息</h4>
+					<div class="form-group">
+						<input type="text" placeholder="请输入id" class="form-control" v-model="id" />
+					</div>
+					<div class="form-group">
+						<input type="text" placeholder="请输入姓名" class="form-control" v-model="username"/>
+					</div>
+					<div class="form-group">
+						<input type="text" placeholder="请输入性别" class="form-control" v-model="sex" />
+					</div>
+					<div class="form-group">
+						<button class="btn btn-warning" type="button" @click="updateInfo">修改</button>
+					</div>
+				</form>
+				
+				
+			</div>
+		</div>
+		<script>
+//		del add update search
+		
+			new Vue({
+				el:"#app",
+				data:{
+					infoList:[
+						{id:1,username:"咖啡1",sex:"男"},
+						{id:2,username:"咖啡2",sex:"男"},
+						{id:3,username:"咖啡3",sex:"男"},
+						{id:4,username:"咖啡4",sex:"男"},
+						{id:5,username:"咖啡5",sex:"男"}
+					],
+					id:"",
+					username:"",
+					sex:"",
+					isShow:true,
+					tabIndex:-99999
+				},
+				methods:{
+					addInfo:function(){
+						var obj = {
+							id:this.id,
+							username:this.username,
+							sex:this.sex
+						}
+						for (var i=0;i<this.infoList.length;i++) {
+							if(this.infoList[i].id == obj.id){
+								alert('有重复')
+								return
+							}
+						}
+						this.infoList.push(obj)
+//						localStorage.setItem("newArr",JSON.stringify(this.infoList))
+						this.id = ""
+						this.username = ""
+						this.sex = ""
+					},
+					add:function(){
+						this.isShow = true
+						this.username = ""
+						this.id = ""
+						this.sex = ""
+					},
+					del:function(index){
+						
+						this.infoList.splice(index,1)
+						
+					},
+					update:function(index){
+						this.isShow = false
+						this.tabIndex = index
+						this.id = this.infoList[index].id
+						this.username = this.infoList[index].username
+						this.sex = this.infoList[index].sex
+					},
+					updateInfo:function(){
+						var obj = {
+							id:this.id,
+							username:this.username,
+							sex:this.sex
+						}
+						this.infoList.splice(this.tabIndex,1,obj)
+					}
+				}
+	
+			})
+		</script>
+	</body>
+</html>

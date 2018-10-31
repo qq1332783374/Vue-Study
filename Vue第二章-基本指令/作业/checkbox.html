@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>全选和反选</title>
+	</head>
+	<body>
+		<div id="app">
+			<div class="content">
+				<form>
+					<div 
+						class="form-group" 
+						v-for="(item, index) in checkboxs"
+						:key="index"
+					>
+						<label>{{item.name}}</label>
+						<input type="checkbox" name="all" :checked="item.checked"/>
+					</div>
+					<div class="form-group">
+						<label>{{msg}}</label>
+						<input type="checkbox" name="all" @click="allChecked"/>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script>
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					msg:"全选",
+					onOff:true,
+					checkboxs:[
+						{name:"选择1",checked:false},
+						{name:"选择2",checked:false},
+						{name:"选择3",checked:false},
+						{name:"选择4",checked:false}
+					]
+				},
+				methods:{
+					allChecked(){
+						if(this.onOff){
+							for (var i=0;i<this.checkboxs.length;i++) {
+								this.checkboxs[i].checked = true
+							}
+							this.msg = "全不选"
+							this.onOff = false
+						}else{
+							for (var i=0;i<this.checkboxs.length;i++) {
+								this.checkboxs[i].checked = false
+							}
+							this.msg = "全选"
+							this.onOff = true
+						}
+						
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="checkbox" v-model="checkAll" @click="selectAll" />
+			<ul>
+				<li v-for="item in items">
+					<input type="checkbox" :value="item.id" v-model="checkItem" @change="selectOne" />
+					{{item.title}}
+				</li>
+			</ul>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+//					checkAll:true
+					items:[
+						{id:1,title:"标题1"},
+						{id:2,title:"标题2"},
+						{id:3,title:"标题3"},
+						{id:4,title:"标题4"}
+					],
+					checkItem:[],
+					checkAll:false
+				},
+				methods:{
+					selectAll:function(){
+						this.checkItem = []
+						if(!this.checkAll){
+							for (var i=0;i<this.items.length;i++) {
+								this.checkItem.push(this.items[i].id)
+							}
+						}else {
+							this.checkItem = []
+							this.checkAll = false
+						}
+					},
+					selectOne(){
+						console.log(this.checkItem)
+						if(this.checkItem.length == this.items.length){
+							this.checkAll = true
+						}else {
+							this.checkAll = false
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

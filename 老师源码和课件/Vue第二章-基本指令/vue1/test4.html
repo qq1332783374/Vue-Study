@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<style>
+			.show{
+				width: 100px;
+				height: 100px;
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="show" v-if="list.length>0">
+				1
+			</div>	
+		
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					list:["a"]
+				}
+			})
+		</script>
+	</body>
+</html>

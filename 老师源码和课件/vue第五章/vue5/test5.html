@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>父组件发起ajax请求实现新闻列表(jqueryAjax-axios)</title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<item v-if="list.length>0" v-for="(item,index) in list" :key="item.id" :item="item"></item>
+		</div>
+		<script>
+			Vue.component("item",{
+				props:["item"],
+				template:"<div>{{item.title}}</div>"
+			})
+			
+		
+			new Vue({
+				el:"#app",
+				data:{
+					list:[]
+				},
+				created:function(){
+					var _this = this
+					$.ajax({
+						type:"get",
+						url:"data/data.json",
+						success:function(res){
+							console.log(res)
+							_this.list = res
+						}
+					})
+				}
+			})
+		</script>
+	</body>
+</html>

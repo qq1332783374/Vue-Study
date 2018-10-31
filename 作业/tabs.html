@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>vue选项卡</title>
+		<style scoped="scoped">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			ul li{
+				list-style: none;
+				cursor: pointer;
+			}
+			.tabs{
+				width: 520px;
+				margin: 20px auto;
+			}
+			.tabs .nav{
+				display: flex;
+			}
+			.nav li{
+				flex: 1;
+				box-sizing: border-box;
+				padding: 6px 12px;
+				text-align: center;
+				border: 1px solid #ddd;
+				background: -webkit-linear-gradient(left,#269ABC,#46B8DA);
+				color: #fff;
+			}
+			.nav li.active{
+				background: #fff;
+				color: #000;
+			}
+			.tabs .contents{
+				width: 96.9%;
+				padding: 5px;
+				border: 1px solid #ddd;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="tabs">
+				<ul class="nav">
+					<li 
+						v-for="(item,index) in navs" 
+						:key="index" 
+						@click = "tab(index)"  
+						v-bind:class="{active:index==current}"
+					>
+						{{item.title}}
+					</li>
+				</ul>
+				<div class="contents">
+					{{message}}
+				</div>
+			</div>
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script>
+			//实例化
+			new Vue({
+				el:"#app",
+				data:{
+					message:'内容1',
+					current:0,
+					navs:[
+						{title:'选项1'},
+						{title:'选项2'},
+						{title:'选项3'}
+					],
+					content:[
+						{contents:'内容1'},
+						{contents:'内容2'},
+						{contents:'内容3'}
+					]
+				},
+				methods:{
+					tab(index){
+						console.log(index)
+						this.message = this.content[index].contents
+						this.current = index
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

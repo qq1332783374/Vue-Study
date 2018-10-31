@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<link rel="stylesheet" type="text/css" href="http://www.tanshangbiao.cn/pack/bootstrap/css/bootstrap.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<div class="container">
+				<mheader :list="list" @addinfo="addsome"></mheader>
+				<mlist  :item="list" @delitem="dels"></mlist>
+				
+				
+			</div>
+			
+			
+		</div>
+		<script>
+			Vue.component("mheader",{
+				data(){
+					return {
+						user:"",
+						content:""
+					}
+				},
+				props:["list"],
+				template:`
+					<div class="header">
+						<div class="form-group">
+							<label>发送人</label>
+							<input type="text" class="form-control" v-model="user" />
+						</div>
+						<div class="form-group">
+							<label>内容</label>
+							<input type="text" class="form-control" v-model="content" />
+						</div>
+						<div class="form-group">
+							<button class="btn btn-danger" @click="addinfo">发送</button>
+						</div>
+					</div>
+					`,
+				methods:{
+					addinfo(){
+						var obj = {
+							id:this.list[this.list.length-1].id+1,
+							user:this.user,
+							content:this.content
+						}
+						this.$emit("addinfo",obj)
+						
+					
+					}
+				}
+			})
+			
+			Vue.component("mlist",{
+				data(){
+					return {
+						
+					}
+				},
+				props:["item"],
+				template:`
+					<ul class="list-group">
+						<li class="list-group-item" @click="del(index)" v-for="(item ,index) in item" :key="index">
+							{{item.content}}
+							<span class="badge">
+								{{item.user}}
+							</span>
+						</li>
+					</ul>
+				`,
+				methods:{
+					del(index){
+						this.$emit("delitem",index)
+					}
+				}
+			})
+		
+		
+		
+		
+			new Vue({
+				el:"#app",
+				data:{
+					list:[
+						{id:1,user:"张三1",content:"张三111"},
+						{id:2,user:"张三2",content:"张三112"},
+						{id:3,user:"张三3",content:"张三113"},
+						{id:4,user:"张三4",content:"张三114"}
+					]
+				},
+				methods:{
+					addsome(obj){
+//						alert(1)
+//						console.log(obj)
+						this.list.push(obj)
+					},
+					dels(index){
+						if(confirm("确定删除吗")){
+							this.list.splice(index,1)
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

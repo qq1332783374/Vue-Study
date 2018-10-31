@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>学生信息登记</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="http://www.tanshangbiao.cn/pack/bootstrap/css/bootstrap.css"/>
+		<script src="http://www.tanshangbiao.cn/pack/jQuery/jquery-1.11.0.js"></script>
+		<script src="http://www.tanshangbiao.cn/pack/bootstrap/js/bootstrap.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="container">
+				<h1 class="text-info text-center">学生信息登记</h1>
+				<table class="table table-bordered">
+					<thead>
+						<tr class="text-center">
+							<td>学号</td>
+							<td>姓名</td>
+							<td>性别</td>
+							<td>操作</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr 
+							class="text-center" 
+							v-cloak
+							v-for = "(item,index) in info_arr"
+							:key="index"
+						>
+							<td>{{item.id}}</td>
+							<td>{{item.name}}</td>
+							<td>{{item.sex}}</td>
+							<td>
+								<button class="btn btn-danger" data-toggle="modal" data-target="#delModal"  @click="del(index)">删除</button>
+								<button class="btn btn-primary" data-toggle="modal" data-target="#changeModal"  @click="change(index)">修改</button>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr class="text-center">
+							<td colspan="4">
+								<button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModal">增加</button>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			<!-- add Modal -->
+			<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">添加信息</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal">
+								<div class="form-group col-md-11">
+									<input type="text" placeholder="学号" class="form-control" name="id">
+								</div>
+								<div class="form-group col-md-11">
+									<input type="text" placeholder="姓名" class="form-control" name="username">
+								</div>
+								<div class="form-group col-md-11">
+									<input type="text" placeholder="性别" class="form-control" name="sex">
+								</div>
+								<div class="clearfix"></div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary" @click="add" id="add">提交更改</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- add Modal -->
+			<!-- change Modal -->
+			<div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">修改信息</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal" v-for="(item,index) in changeSure_arr" :key="index">
+								<div class="form-group col-md-11">
+									<input type="text" v-model="item.id" class="form-control">
+								</div>
+								<div class="form-group col-md-11">
+									<input type="text"  v-model="item.name" class="form-control">
+								</div>
+								<div class="form-group col-md-11">
+									<input type="text"  v-model="item.sex" class="form-control">
+								</div>
+								<div class="clearfix"></div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary" id="change" @click="changeSure()">提交更改</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- change Modal -->
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el:"#app",
+				data:{
+					info_arr:[
+						{id:0,name:'小红',sex:'女'},
+						{id:1,name:'小明',sex:'男'},
+						{id:2,name:'小莉',sex:'女'},
+						{id:3,name:'小东',sex:'男'}
+					],
+					changeSure_arr:[]
+				},
+				methods:{
+					add(){
+						var addMadel = document.getElementById("addModal");
+						var oInput = addMadel.getElementsByTagName('input');
+						var oBtn = document.getElementById("add");
+						this.info_arr.push({
+							id:parseInt(oInput[0].value),
+							name:oInput[1].value,
+							sex:oInput[2].value
+						});
+						oBtn.setAttribute("data-dismiss","modal")
+						for (var i=0;i<oInput.length;i++) {
+							oInput[i].value = ""
+						}
+					},
+					del(index){
+						if(confirm("确定删除吗")){
+							this.info_arr.splice(index,1)
+						}
+					},
+					change(index){
+						if(this.changeSure_arr.length>=1){
+							this.changeSure_arr = []
+						}
+						this.changeSure_arr.push(this.info_arr[index])
+					},
+					changeSure(index){
+						var oBtn = document.getElementById("change");
+						oBtn.setAttribute("data-dismiss","modal")
+					}
+					
+				}
+			})
+		</script>
+	</body>
+</html>

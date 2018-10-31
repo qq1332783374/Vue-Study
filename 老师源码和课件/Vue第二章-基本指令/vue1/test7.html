@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="item in list">
+					{{item.title}}
+					<span v-show="item.show">hot</span>
+				</li>
+			</ul>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					list:[
+						{title:"这是标题1",show:false},
+						{title:"这是标题2",show:true},
+						{title:"这是标题3",show:true},
+						{title:"这是标题4",show:false}
+					]
+				}
+			})
+		</script>
+	</body>
+</html>

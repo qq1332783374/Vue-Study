@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		
+		<link rel="stylesheet" href="css/bootstrap.css" />
+		<style>
+			.desc_title{
+				display: inline-block;
+				height: 20px;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space:nowrap;
+				width: 100%;
+			}
+			.price{
+				font-size: 20px;
+				font-weight: bold;
+				color: crimson;
+			}
+			.discount{
+				text-decoration: line-through;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="row">
+				<shopitem v-for="item in shopList" :key="item.goodsId" :item="item"></shopitem>
+			</div>
+		</div>
+		<script>
+//			axios
+			Vue.component("shopitem",{
+				data(){
+					return {
+						
+					}
+				},
+				props:["item"],
+				template:`
+					<div class="col-md-3">
+					<div class="imgs">
+						<img :src="item.goodsImg" class="img-thumbnail"/>
+					</div>
+					<div class="desc">
+						<span class="desc_title">
+							{{item.desc}}
+						</span>
+						
+					</div>
+					<div class="money">
+						<span class="price">
+							{{item.price}}
+						</span>
+						<span class="discount">
+							{{item.discount}}
+						</span>
+					</div>
+				</div>
+				`
+			})
+			new Vue({
+				el:"#app",
+				data:{
+					shopList:[]
+				},
+				created:function(){
+					axios.get("mock/data.json")
+					     .then((res)=>{
+					     	var data = res.data
+					     	
+							if(data.code==200){
+								this.shopList = data.goodslist
+								console.log(this.shopList)
+							}
+					     })
+				}
+			})
+		</script>
+	</body>
+</html>

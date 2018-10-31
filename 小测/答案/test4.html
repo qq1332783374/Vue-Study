@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<script src="js/vue.js"></script>
+		<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div id="app">
+			<div class="container">
+				<table class="table table-bordered table-hover text-center">
+					<tr>
+						<td>
+							商品名称
+						</td>
+						<td>
+							商品价格
+						</td>
+						<td>
+							商品数量
+						</td>
+						<td>
+							操作
+						</td>
+					</tr>
+					<tr v-for="(item,index) in list">
+						<td>
+							{{item.shopName}}
+						</td>
+						<td>
+							{{item.shopPrice}}
+						</td>
+						<td>
+							{{item.shopNum}}
+						</td>
+						<td>
+							<button class="btn btn-danger" @click="add(index)">+</button>
+							<button class="btn btn-primary" @click="reduce(index)">-</button>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="5">
+							<button class="btn btn-success" @click="edit">编辑收货地址</button>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="5" class="text-right">
+							<p>总价格:{{allMoney}}</p>
+							<p>总数量:{{allNum}}</p>
+							<p>收货地址:{{address}}</p>
+						</td>
+					</tr>
+				</table>
+				<hr />
+				<form v-if="isShow">
+					<div class="form-group">
+						<input class="form-control" placeholder="请输入地址" v-model="address" />
+					</div>
+					<div class="form-group">
+						<button class="btn btn-warning" type="button" @click="addInfo">确定</button>
+					</div>
+				</form>
+				
+			</div>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					list:[
+						{id:1,shopName:"商品1",shopPrice:1000,shopNum:1},
+						{id:2,shopName:"商品2",shopPrice:2000,shopNum:1},
+						{id:3,shopName:"商品3",shopPrice:3000,shopNum:1},
+						{id:4,shopName:"商品4",shopPrice:4000,shopNum:1}
+					],
+					checkItem:[],
+					isCheck:false,
+					isShow:false,
+					address:""
+				},
+				methods:{
+					add(index){
+						this.list[index].shopNum++
+					},
+					reduce(index){
+						this.list[index].shopNum--
+						if(this.list[index].shopNum<0){
+							var a = confirm("你确定删除吗?")
+							if(a){
+								this.list[index].splice(index,1)
+							}
+						}
+					},
+					edit(){
+						this.isShow = true
+					},
+					addInfo(){
+						this.isShow = false
+					}
+				},
+				computed:{
+					allMoney(){
+							var sum = 0
+							for (var i=0;i<this.list.length;i++) {
+								sum += parseInt(this.list[i].shopPrice)*parseInt(this.list[i].shopNum)
+							}
+							return sum
+					},
+					allNum(){
+						var sum = 0
+						for (var i=0;i<this.list.length;i++) {
+								sum += parseInt(this.list[i].shopNum)
+						}
+						return sum
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

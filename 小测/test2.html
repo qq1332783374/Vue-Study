@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>todoList</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="http://www.tanshangbiao.cn/pack/bootstrap/css/bootstrap.css"/>
+		<style>
+			ul li.actives{
+				text-decoration: line-through;
+			}
+		</style>
+	</head>
+		<div id="app">
+			<div class="container">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<input type="text" name="addtodo" placeholder="输入代办事项" class="form-control" v-model="addtodo" /><br>
+						<button type="button" class="btn btn-info" @click="addItem">添加</button>
+					</div>
+				</form>
+				<hr>
+				<ul class="list-group">
+					<li 
+						class="list-group-item clearfix "
+						v-for="(item,index) in todo"
+						:key="index"
+						:class="{actives:item.isDone}"
+					>
+						<input 
+							type="checkbox" 
+							:checked="item.isDone"
+							@click="done(index)"
+						>
+						{{item.content}} 
+						<button 
+							type="button" 
+							class="btn btn-danger btn-sm pull-right"
+							@click="del(index)"
+							v-if="item.isDone"
+						>删除</button>
+						<button type="button" class="btn btn-success btn-sm pull-right" v-else @click="done(index)">完成</button>
+					</li>
+					
+				</ul>
+				
+			</div>
+		</div>
+	<body>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script>
+			var vue = new Vue({
+				el:"#app",
+				data:{
+					addtodo:"",
+					todo:[
+						{id:1,content:"敲代码",isDone:true},
+						{id:2,content:"看书",isDone:false},
+						{id:2,content:"睡觉",isDone:false}
+					],
+				},
+				methods:{
+					addItem(){
+						var obj = {
+							id:this.todo.length+1,
+							content:this.addtodo,
+							isDone:false
+						}
+						this.todo.push(obj)
+					},
+					done(index){
+						if(this.todo[index].isDone){
+							this.todo[index].isDone = false
+						}else{
+							this.todo[index].isDone = true
+							
+						}
+					},
+					del(index){
+						if(confirm("确定完成了吗？")){
+							this.todo.splice(index,1)
+						}
+					}
+				},
+				computed:{
+					
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>todoList</title>
+		<link rel="stylesheet" type="text/css" href="http://www.tanshangbiao.cn/pack/bootstrap/css/bootstrap.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="text-info">ToDoList</h3>
+					</div>
+					<div class="panel-body">
+						<form class="form-horizontal" style="padding: 10px;">
+							<div class="form-group">
+								<textarea type="text" class="form-control" v-model="todoinfo">
+								</textarea>
+							</div>
+							<div class="form-group">
+								<button type="button" class="btn btn-primary" @click="addtodo">添加</button>
+								<button type="button" class="btn btn-success" @click="donetodo">完成</button>
+							</div>
+						</form>
+						<div class="alert alert-info" v-if="isAddShow">添加成功</div>
+						<div class="alert alert-success" v-if="isSucShow">事件完成</div>
+						<hr>
+						<div class="well well-sm">代办：{{todoL}}  完成：{{doneL}}</div>
+						<ul class="list-group">
+							<li 
+								class="list-group-item"
+								v-for="(item,index) in todo"
+								:key="index"
+							>
+								<span class="badge">
+									<input type="checkbox" :value="index" v-model="checkItem">
+								</span>
+								{{item.contents}}
+							</li>
+						</ul>
+						<hr>
+						<h2 class="text-primary">历史记录</h2>
+						<ul class="list-group">
+							<li class="list-group-item" v-for="item in done">
+								<span class="badge"><input type="checkbox" ></span>
+								{{item.contents}}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script>
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					todo:[],
+					done:[],
+					checkItem:[],
+					todoinfo:"",
+					isAddShow:false,
+					isSucShow:false,
+				},
+				methods:{
+					addtodo(){
+						var _this = this
+						if(this.todoinfo.length!=0){
+							var newItem = {
+								id:this.todo.length,
+								contents:this.todoinfo
+							}
+							this.todo.push(newItem)
+							this.todoinfo = ""
+							this.isAddShow = true
+						}
+						setTimeout(function(){
+							_this.isAddShow = false
+						},1500)
+					},
+					donetodo(){
+						if(this.checkItem.length==0){
+							alert("请勾选！")
+						}else{
+							var arr = []
+							var l = this.todo.length
+							for(var i=0;i<l;i++){
+								if(this.checkItem.indexOf(i)>=0){
+									this.done.push(this.todo[i])
+								}else{
+									arr.push(this.todo[i])
+								}
+							}
+							this.todo = arr
+							this.checkItem = []
+							this.isSucShow = true 
+							var _this = this
+							setTimeout(function(){
+								_this.isSucShow = false 
+							},1500)
+						}
+					}
+				},
+				computed:{
+					todoL(){
+						return this.todo.length
+					},
+					doneL(){
+						return this.done.length
+					}
+				}
+				
+			})
+		</script>
+	</body>
+
+</html>

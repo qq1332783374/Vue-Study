@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>父组件向子组件传递值实现select下拉列表展示</title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<item></item>
+		</div>
+		<script>
+			Vue.component("item",{
+				template:`
+					<div>
+						<h3>4444</h3>
+						<h4>44444</h4>
+					</div>
+				`
+			})
+		
+			new Vue({
+				el:"#app",
+				data:{}
+			})
+		</script>
+	</body>
+</html>

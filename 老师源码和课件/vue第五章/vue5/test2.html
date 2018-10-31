@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<child :msg="msg"></child>
+			<child :msg="msg"></child>
+			<child :msg="msg"></child>
+		</div>
+		<script>
+		//数据单向流，不可以在子组件直接修改父组件
+			Vue.component("child",{
+				props:["msg"],
+				data(){
+					return {
+						num:2
+					}
+				},
+				template:"<div class='wrap' @click='add'>{{msg}}</div>",
+				methods:{
+					add:function(){
+//						this.num++
+						this.msg = "aaaa"
+					}
+				}
+				
+			})
+		
+			new Vue({
+				el:"#app",
+				data:{
+					msg:"hello parent"
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>商品列表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			header{
+				height: 40px;
+				box-sizing: border-box;
+				padding: 8px 12px;
+				background: #fff;
+				border-bottom: 1px solid #ddd;
+				text-align: center;
+			}
+			header a{
+				color: #666;
+			}
+			.mui-content  a img{
+				width: 100%;
+			}
+			.main{
+				
+			}
+			.main .row{
+				
+			}
+			.main .row div{
+				background: #fff;
+				text-overflow:ellipsis;
+				float: left;
+				margin: 5px;
+				box-sizing: border-box;
+				padding: 5px;
+			}
+			.mui-col-sm-6{
+				width: 47%;
+			}
+			.price{
+				font-size: 18px;
+				font-weight: bold;
+				color: #d90000;
+			}
+			.oldPrice{
+				font-size: 14px;
+				text-decoration: line-through;
+			}
+			.shopTitle{
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+		
+	<body>
+		<div id="app">
+			<header>
+				<a href="javascript:;" class="back mui-pull-left"><i class="mui-icon mui-icon-back"></i></a>
+				<a href="javascript:;" class="title">风衣</a>
+				<a href="javascript:;" class="home mui-pull-right"><i class="mui-icon mui-icon-home"></i></a>
+			</header>
+			<div class="main">
+				<div class="mui-content">
+					<div class="row">
+						<!-- 加载商品列表 -->
+						<goodsitem
+							v-for="(item, index) in goodsInfo"
+							:key = "item.id"
+							:item="item"
+						></goodsitem>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script>
+			//商品组件
+			Vue.component('goodsitem',{
+				data(){
+					return{
+						
+					}
+				},
+				props:["item"],
+				template:`
+					<div class="mui-col-sm-6 mui-col-xs-12 ">
+							<a href="javascript:;"  data-goodsid="item.goodsId">
+								<img :src="item.goodsImg" alt="">
+								<p class="shopTitle">{{item.desc}}</p>
+								<p>
+									<span class="price">￥{{item.price}}</span>
+									<span class="oldPrice">￥{{item.discount}}</span>
+								</p>
+							</a>
+					</div>
+				`
+			})
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					goodsInfo:[]
+				},
+				created(){
+					var _this = this 
+					axios.get('../data/goods.json')
+						.then(function(res){
+							_this.goodsInfo = res.data.goodslist
+							console.log(res)
+						})
+						.catch(function(error){
+							console.log(error)
+						})
+				}
+			})
+		</script>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

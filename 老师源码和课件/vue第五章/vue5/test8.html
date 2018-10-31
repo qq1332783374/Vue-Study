@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<count :num="3" @addincre="handClick"></count>
+			<count :num="2" @addincre="handClick"></count>
+			{{total}}
+		</div>
+		<script>
+//		vuex
+			Vue.component("count",{
+				data(){
+					return {
+						numcount:this.num
+					}
+				},
+				props:["num"],
+				template:"<div @click='add'>{{numcount}}</div>",
+				methods:{
+					add:function(){
+//						alert(1)
+						this.numcount = this.numcount+2
+						this.$emit("addincre",2)
+					}
+				}
+			})
+		
+			new Vue({
+				el:"#app",
+				data:{
+					total:5
+				},
+				methods:{
+					handClick:function(step){
+						this.total = this.total+2
+//						alert(step)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

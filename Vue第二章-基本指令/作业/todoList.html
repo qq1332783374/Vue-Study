@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>vue-todoList</title>
+		<link rel="stylesheet" type="text/css" href="http://www.tanshangbiao.cn/pack/bootstrap/css/bootstrap.css"/>
+	</head>
+
+	<body>
+		<div id="app">
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						vue-todoList
+					</div>
+					<div class="panel-body">
+						<div class="addNew">
+							<input type="text" name="addNew" v-model="newItem">
+							<button type="button" class="btn btn-info btn-sm" @click="addtodoItem()">添加代办</button>
+						</div>
+						<div class="showPanel">
+							<h4 class="text-primary">代办:<span>{{todoItem.length}}</span></h4>
+							<ul>
+								<li v-for="(item, index) in todoItem" :key="index" @click = "okItem(index)">
+									{{item}}
+								</li>
+							</ul>
+							<h4 class="text-success">完成:<span>{{todoEd.length}}</span></h4>
+							<ul>
+								<li v-for="(item, index) in todoEd" :key="index" >
+									{{item}}
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					todoItem:[],
+					todoEd:[],
+					newItem:''
+				},
+				methods:{
+					addtodoItem(){
+						console.log(this.newItem)
+						this.todoItem.push(this.newItem)
+						this.newItem = ""
+					},
+					okItem(index){
+						if(confirm("确定完成了吗？")){
+							this.todoEd.push(this.todoItem[index])
+							this.todoItem.splice(index,1)
+						}
+						console.log(this.todoEd)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

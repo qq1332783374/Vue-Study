@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="add">按钮</button>
+		</div>
+		<script>
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					msg:"hello"
+				},
+				methods:{
+					//es5 javascript
+//					add:function(){
+////						alert(1)
+////						alert(this.msg)
+//						this.reduce()
+//					},
+//					reduce:function(){
+//						console.log(1)
+//					}
+					//es6
+					add(){
+						alert(1)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

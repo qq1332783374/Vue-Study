@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>data函数</title>
+	</head>
+	<body>
+		<div id="app">
+			<blog-post
+				v-for="post in bloginfo"
+				:key="post.id"
+				:content="post.content"
+			></blog-post>
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script>
+			//注册组件
+			Vue.component("blog-post",{
+				props:["content"],
+				template:`
+					<h4>{{content}}</h4>
+				`
+			})
+			//创建Vue()实例
+			 new Vue({
+				el:"#app",
+				data:{
+					bloginfo:[
+						{id:0,content:"这是第一条"},
+						{id:1,content:"这是第二条"},
+						{id:2,content:"这是第三条"}
+					]
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>父组件向子组件传递值实现select下拉列表展示</title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<select v-model="fruit">
+				<option is="isoption" v-for="item in list" :item="item"></option>
+			</select>
+		</div>
+		<script>
+			Vue.component("isoption",{
+				props:["item"],
+				template:`
+					<option :value="item.title">{{item.title}}</option>
+				`
+			})
+		
+			new Vue({
+				el:"#app",
+				data:{
+					list:[
+						{"title":"苹果1"},
+						{"title":"苹果2"},
+						{"title":"苹果3"},
+						{"title":"苹果4"}
+					
+					],
+					fruit:"苹果3"
+				}
+			})
+		</script>
+	</body>
+</html>

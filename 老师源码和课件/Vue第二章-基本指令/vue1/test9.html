@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		
+		<div id="app">
+			<button @click="move">走</button>
+			<button @click="stop">停</button>
+			<h3>{{msg}}</h3>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					msg:"hello Vue",
+					timer:null
+				},
+				methods:{
+					move:function(){
+						if(this.timer){
+							return
+						}
+						
+						//es5
+//						var _this = this
+//						this.timer = setInterval(function(){
+//							var start = _this.msg.substring(0,1)
+//							var end = _this.msg.substring(1)
+//							_this.msg = end+start
+//						},400)
+						
+						//es6
+						this.timer = setInterval(()=>{
+							var start = this.msg.substring(0,1)
+							var end = this.msg.substring(1)
+							this.msg = end+start
+						},400)
+						
+					},
+					stop:function(){
+						clearInterval(this.timer)
+						this.timer = null
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

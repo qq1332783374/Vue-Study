@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>购物车</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="http://www.tanshangbiao.cn/pack/bootstrap/css/bootstrap.css"/>
+		<script src="http://www.tanshangbiao.cn/pack/jQuery/jquery-1.11.0.js"></script>
+		<script src="http://www.tanshangbiao.cn/pack/bootstrap/js/bootstrap.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="container">
+				<h1 class="text-info text-center">购物车</h1>
+				<table class="table table-bordered">
+					<thead>
+						<tr class="text-center">
+							<td>商品名称</td>
+							<td>商品单价</td>
+							<td>数量</td>
+							<td>商品价格</td>
+							<td>操作</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr 
+							class="text-center"
+							v-for="(item,index) in goods"
+							:key="index"
+							 
+						>
+							<td>{{item.name}}</td>
+							<td>{{item.price}}</td>
+							<td>
+								<button class="btn btn-default btn-sm" @click="item.number--?item.number<=0:item.number=0">-</button>
+								<input type="text" name="num" v-model="item.number">
+								<button class="btn btn-default btn-sm" @click="item.number++">+</button>
+							</td>
+							<td>{{item.price*item.number}}</td>
+							<td>
+								<button class="btn btn-danger" @click = "del(index)">删除</button>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr class="text-right">
+							<td colspan="5">
+								<p>金额总计：{{allmoney}}￥</p>
+								<p>商品数量总计：{{allNum}}个</p>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				<hr>
+				<h1 class="text-info">添加商品</h1>
+				<form class="form-horizontal" id="addGoods">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="商品名称">
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="商品单价">
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="数量">
+					</div>
+					<div class="form-group">
+						<button class="btn btn-info" @click="addGoods" type="button">添加</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el:"#app",
+				data:{
+					goods:[
+						{name:"iPhone",price:"5499",number:2},
+						{name:"samsung",price:"4999",number:1},
+						{name:"HUAWEI",price:"5499",number:5},
+						{name:"nokia",price:"4599",number:2},
+						{name:"meizu",price:"4399",number:3}
+					]
+				},
+				methods:{
+					del(index){  //删除商品
+						if(confirm("确定删除吗")){
+							this.goods.splice(index,1)
+						}
+					},
+					addGoods(){  //添加商品
+						var oForm = document.getElementById("addGoods");
+						var oInput = oForm.getElementsByTagName('input');
+						this.goods.push({
+							name:oInput[0].value,
+							price:parseFloat(oInput[1].value),
+							number:parseInt(oInput[2].value)
+						});
+						for(var i=0;i<oInput.length;i++){
+							oInput[i].value = "";
+						};
+					}
+				},
+				computed:{
+					allmoney(){  //计算总价格
+						var allPrice = 0;
+						for(var i=0;i<this.goods.length;i++){
+							allPrice = allPrice + this.goods[i].price * this.goods[i].number;
+						};
+						return allPrice;
+					},
+					allNum(){ //计算总数量
+						var allNum = 0 ;
+						for(var i=0;i<this.goods.length;i++){
+							allNum = allNum + this.goods[i].number;
+						};
+						return allNum;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<style>
+			.text-danger{
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div :class="[active,big]">
+				{{msg}}
+			</div>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					msg:"hello",
+					active:"color",
+					big:"fontSize"
+				}
+			})
+		</script>
+	</body>
+</html>

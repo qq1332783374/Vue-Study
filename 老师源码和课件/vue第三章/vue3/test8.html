@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="css/bootstrap.css" />
+		<script type="text/javascript" src="js/vue.js" ></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="container">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<td>
+							<input type="checkbox" v-model="isCheck" @click="selectAll" />
+						</td>
+						<td>
+							商品名称
+						</td>
+						<td>
+							商品价格
+						</td>
+						<td>
+							商品数量
+						</td>
+						<td>
+							商品总额
+						</td>
+						<td>
+							操作
+						</td>
+					</tr>
+					<tr v-for="(item,index) in listInfo">
+						<td>
+							<input type="checkbox" 
+								v-model="checkItem" 
+								:value="item.id" 
+								@change="selectOne(index)"
+								/>
+						</td>
+						<td>{{item.shopName}}</td>
+						<td>{{item.shopPrice}}</td>
+						<td>
+							<button class="btn btn-default" @click="reduce(index)">-</button>
+							<input type="text" v-model="item.shopCount" />
+							<button class="btn btn-default" @click="add(index)">+</button>
+						</td>
+						<td>
+							{{item.shopPrice*item.shopCount}}
+						</td>
+						<td>
+							<button class="btn btn-warning">删除</button>
+						</td>
+					</tr>
+				
+				</table>
+				<p class="text-right">
+					金额总计:{{sum}}
+				</p>
+				<p class="text-right">
+					商品数量:{{count}}
+				</p>
+				<hr />
+				<form>
+					<div class="form-group">
+						<input class="form-control" placeholder="商品名称" v-model="shopName" />
+					</div>
+					<div class="form-group">
+						<input class="form-control" placeholder="商品价格" v-model = "shopPrice"/>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary" type="button" @click="addInfo">增加</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					listInfo:[
+						{id:1,shopName:"男装1",shopPrice:1000,shopCount:1,isBuy:false},
+						{id:2,shopName:"男装2",shopPrice:2000,shopCount:1,isBuy:false},
+						{id:3,shopName:"男装3",shopPrice:3000,shopCount:1,isBuy:false},
+						{id:4,shopName:"男装4",shopPrice:4000,shopCount:1,isBuy:false},
+						{id:5,shopName:"男装5",shopPrice:5000,shopCount:1,isBuy:false},
+					],
+					shopName:"",
+					shopPrice:"",
+					isCheck:false,
+					checkItem:[]
+				},
+				methods:{
+					add:function(index){
+						this.listInfo[index].shopCount++
+						 
+					},
+					reduce:function(index){
+						if(this.listInfo[index].shopCount<=0){
+							this.listInfo[index].shopCount = 0
+						}else {
+							this.listInfo[index].shopCount--
+						}
+						
+					},
+					addInfo:function(){
+						var obj = {
+							id:this.listInfo.length+1,
+							shopName:this.shopName,
+							shopPrice:this.shopPrice,
+							shopCount:0
+						}
+						console.log(obj)
+						this.listInfo.push(obj)
+						
+					},
+					selectAll:function(){
+						this.checkItem = []
+						if(!this.isCheck){
+//							alert(1)
+							for(var i=0;i<this.listInfo.length;i++){
+								this.listInfo[i].isBuy = true
+								this.checkItem.push(this.listInfo[i].id)
+							}
+							this.isCheck = true
+						}else {
+//							alert(2)
+							for(var i=0;i<this.listInfo.length;i++){
+								this.listInfo[i].isBuy = false
+							}
+							this.isCheck = false
+							this.checkItem = []
+						}
+					},
+					selectOne(index){
+						if(this.checkItem.length == this.listInfo.length){
+							this.isCheck = true
+						}else {
+							this.isCheck = false
+						}
+						if(this.listInfo[index].isBuy){
+							this.listInfo[index].isBuy = false
+						}else {
+							this.listInfo[index].isBuy = true
+						}
+					}
+				},
+				computed:{
+					sum(){
+						var total = 0
+						for (var i=0;i<this.listInfo.length;i++) {
+							if(this.listInfo[i].isBuy){
+								total+=parseFloat(this.listInfo[i].shopPrice)*parseFloat(this.listInfo[i].shopCount)
+							}
+							
+							
+						}
+						return total	
+					},
+					count:function(){
+						var total = 0
+						
+						for (var i=0;i<this.listInfo.length;i++) {
+							if(this.listInfo[i].isBuy){
+								total+=parseInt(this.listInfo[i].shopCount)
+							}
+							
+						}
+						return total
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
