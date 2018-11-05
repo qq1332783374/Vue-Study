@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		
+		<link rel="stylesheet" href="css/animate.css" />
+		
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<transition name="fade"
+				@before-enter='handBeforeEnter'
+				@enter='enter'
+				@after-enter= 'afterEnter'
+				>
+				<div v-if="show">
+					hello
+				</div>
+			</transition>
+			
+			
+			<button @click="changeShow">
+				切换
+			</button>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					show:true
+				},
+				methods:{
+					changeShow(){
+						
+						this.show = !this.show
+					},
+					handBeforeEnter(el){
+//						console.log(el)
+//						el.style.opacity = 0
+						el.style.color = "red"
+					},
+					enter(el,done){
+//						console.log("enter")
+//						el.style.color = "green"
+						setTimeout(()=>{
+							el.style.color = "green"
+							
+						},2000)
+						setTimeout(()=>{
+							done()
+						},3000)
+					},
+					afterEnter(el){
+//						alert("1")
+						el.style.color = "blue"
+					}
+					
+				}
+			})
+		</script>
+		
+	</body>
+</html>

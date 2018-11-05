@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<script type="text/javascript" src="js/velocity.js" ></script>
+		
+		<link rel="stylesheet" href="css/animate.css" />
+		
+		<style>
+			.fade-enter,.fade-leave-to{
+				opacity: 0;
+			}
+			.fade-enter-active,.fade-leave-active{
+				transition:opacity 1s;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<transition name="fade" mode="in-out">
+				<div v-if="show" key="hello">
+					hello
+				</div>
+				<div v-else key="bye">
+					bye
+				</div>
+			</transition>
+			
+			
+			<button @click="changeShow">
+				切换
+			</button>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					show:true
+				},
+				methods:{
+					changeShow(){
+						
+						this.show = !this.show
+					}
+					
+				}
+			})
+		</script>
+		
+	</body>
+</html>

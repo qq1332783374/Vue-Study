@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<script type="text/javascript" src="js/velocity.js" ></script>
+		
+		<link rel="stylesheet" href="css/animate.css" />
+		
+		<style>
+			.fade-enter,.fade-leave-to{
+				opacity: 0;
+			}
+			.fade-enter-active,.fade-leave-active{
+				transition:opacity 1s;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<transition-group name="fade" mode="in-out">
+				<div v-for="item in list" :key="item.id">
+					{{item.title}}
+				</div>
+			</transition-group>
+			
+			
+			<button @click="changeShow">
+				切换
+			</button>
+		</div>
+		<script>
+			
+		
+			new Vue({
+				el:"#app",
+				data:{
+					list:[
+					],
+					count:0
+				},
+				methods:{
+					changeShow(){
+						var obj = {
+							id:this.count++,
+							title:"这是标题1"
+							
+						}
+						this.list.push(obj)
+					}
+					
+				}
+			})
+		</script>
+		
+	</body>
+</html>

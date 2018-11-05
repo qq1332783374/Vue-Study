@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://www.tanshangbiao.cn/pack/vue/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<item  :list="list">
+				<template slot-scope="props">
+					<li>
+						{{props.item}}
+					</li>
+				</template>
+			</item>
+			
+			<item  :list="news">
+				<template slot-scope="props">
+					<li>
+						{{props.item}}
+					</li>
+				</template>
+			</item>
+		</div>
+		<script>
+			Vue.component("item",{
+				data(){
+					return {
+						
+					}
+				},
+				props:["list"],
+				template:`
+					<ul>
+						<slot v-for="(item,key) in list" :item="item" ></slot>
+					</ul>
+				`,
+			})
+		
+			new Vue({
+				el:"#app",
+				data:{
+					list:{
+						title:"这是标题1",
+						arrlist:[
+							{"content":"内容1"},
+							{"content":"内容2"},
+							{"content":"内容3"},
+							{"content":"内容4"}
+						]
+					},
+					news:[1,2,3,4]
+				}
+			})
+		</script>
+	</body>
+</html>
